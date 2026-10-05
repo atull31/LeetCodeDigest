@@ -1,0 +1,44 @@
+Approach 1: (Using Stack)
+class Solution {
+    public int scoreOfParentheses(String s) {
+        int n = s.length();
+        Deque<Integer> st = new ArrayDeque<>();
+        int sc=0;
+        for(int i=0;i<n;i++){
+            char ch = s.charAt(i);
+            if(ch=='('){
+                st.push(sc);
+                sc=0;
+            }else{
+                if(s.charAt(i-1)=='('){
+                    sc = st.peek()+1;
+                }else{
+                    sc = st.peek() + 2 * sc;
+                }
+                st.pop();
+            }
+        }
+        return sc;
+    }
+}
+
+Approach 2 : (without stack - O(1) Space comp.)
+class Solution {
+    public int scoreOfParentheses(String s) {
+        int n = s.length();
+        int dpth = 0;
+        int sc=0;
+        for(int i=0;i<n;i++){
+            char ch = s.charAt(i);
+            if(ch=='('){
+                dpth++;
+            }else{
+                dpth--;
+                if(s.charAt(i-1)=='('){
+                    sc += (1<<dpth);
+                }
+            }
+        }
+        return sc;
+    }
+}
